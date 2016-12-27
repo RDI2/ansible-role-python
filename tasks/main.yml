@@ -1,0 +1,19 @@
+---
+# tasks file for python
+
+- name: install required packages
+  yum: name={{ item }} state=installed
+  with_items:
+    - gcc
+    - openssl-devel
+    - zlib-devel
+    - sqlite-devel
+    - bzip2-devel
+
+- name: check if already installed
+  stat: path={{ python_prefix }}/bin
+  register: python_bin_dir
+  changed_when: python_bin_dir.stat.exists == False
+
+- include: install.yml
+  when: python_bin_dir.stat.exists == False

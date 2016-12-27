@@ -1,0 +1,21 @@
+---
+# install tasks file for python
+
+- name: make install directory
+  file: path={{ python_prefix }} state=directory
+
+- name: download python tarball
+  get_url: url={{ python_url }} dest=/tmp/Python-{{ python_version }}.tgz
+
+- name: unarchive python tarball
+  unarchive:
+    copy: no
+    src: /tmp/Python-{{ python_version }}.tgz
+    dest: /tmp
+    creates: /tmp/Python-{{ python_version }}
+
+- name: install python
+  shell: ./configure --prefix={{ python_prefix }} && make && make install
+  args:
+    chdir: /tmp/Python-{{ python_version }}
+    creates: "{{ python_prefix }}/bin"
