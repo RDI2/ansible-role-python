@@ -19,7 +19,7 @@ None.
 ```
 - hosts: servers
   roles:
-     - { role: kjtanaka.python }
+     - { role: RDI2.python }
 ```
 
 ## License
